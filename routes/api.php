@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CourseController;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +27,36 @@ Route::post('/sanctum/token', function (Request $request) {
     return $user->createToken($request->device_name)->plainTextToken;
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/feed', function() {
+    return Course::all();
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/jwt', function(Request $request) {
+        $user = $request->user();
+        $token = auth('api')->login($user);
+
+        return $token;
+    });
+
+
+    Route::get('/courses', [CourseController::class, 'index']);
+
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Route::get('/jwt', function(Request $request) {
+    //     $user = $request->user();
+    //     $token = auth('api')->claims(['name' => $user->name])->login($user);
+
+    //     return [
+    //         'user' => $user,
+    //         'token' => $token
+    //     ];
+    // });
+});
+

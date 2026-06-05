@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['birthday', 'gender', 'name', 'email', 'password', 'timezone', 'language', 'meta'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements JWTSubject
 {
@@ -30,12 +30,13 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'meta' => 'array',
         ];
     }
 
     public function courses(): HasMany
     {
-        return $this->hasMany(Course::class, 'created_by_id');
+        return $this->hasMany(Course::class);
     }
 
     public function getJWTIdentifier(): mixed

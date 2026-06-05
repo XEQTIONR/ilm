@@ -27,12 +27,36 @@ Route::post('/sanctum/token', function (Request $request) {
     return $user->createToken($request->device_name)->plainTextToken;
 });
 
+Route::post('/register', function(Request $request) {
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8',
+        'gender' => 'required|string|max:6|in:male,female',
+        'birthday' => 'required|date',
+        'device_name' => 'required|string|max:255',
+    ]);
+
+    $user = User::create([
+        ...$validated,
+        'password' => Hash::make($validated['password']),
+    ]);
+
+    return $user->createToken($validated['device_name'])->plainTextToken;
+});
+
 Route::get('/feed', function() {
     return Course::all();
 });
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/logout', function(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->noContent();
+    });
 
     Route::get('/jwt', function(Request $request) {
         $user = $request->user();

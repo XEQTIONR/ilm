@@ -5,15 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 
+
+#[Fillable(['title', 'description', 'image', 'video', 'total_lessons', 'status', 'owned_by_id', 'meta'])]
 class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'image', 'video', 'status', 'created_by_id'];
-
-    public function createdBy(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return [
+            'meta' => 'array',
+        ];
+    }
+
+    public function ownedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

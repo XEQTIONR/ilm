@@ -17,10 +17,14 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->string('video')->nullable();
+            $table->integer('total_lessons')->nullable();
             $table->string('status')->default('created');
-            $table->foreignId('created_by_id')->constrained('users');
+            $table->foreignId('owned_by_id')->constrained('users');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
+
+       
     }
 
     /**

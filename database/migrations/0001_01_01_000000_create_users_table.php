@@ -18,6 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->date('birthday')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('timezone')->default('UTC');
+            $table->string('language')->default('en');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
 

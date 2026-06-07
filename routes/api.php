@@ -7,24 +7,28 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use App\Http\Controllers\InstructorController;
 
 
 Route::post('/sanctum/token', function (Request $request) {
-    $request->validate([
+    $validated = $request->validate([
         'email' => 'required|email',
         'password' => 'required',
         'device_name' => 'required',
     ]);
  
-    $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $validated['email'])->first();
  
-    if (! $user || ! Hash::check($request->password, $user->password)) {
+    if (! $user || ! Hash::check($validated['password'], $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
  
-    return $user->createToken($request->device_name)->plainTextToken;
+    return  [
+        'user' => $user,
+        'token' => $user->createToken($validated['device_name'])->plainTextToken,
+    ];
 });
 
 Route::post('/register', function(Request $request) {
@@ -43,7 +47,10 @@ Route::post('/register', function(Request $request) {
         'password' => Hash::make($validated['password']),
     ]);
 
-    return $user->createToken($validated['device_name'])->plainTextToken;
+    return  [
+        'user' => $user,
+        'token' => $user->createToken($validated['device_name'])->plainTextToken,
+    ];
 });
 
 Route::get('/feed', function() {
@@ -72,6 +79,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/instructors', [InstructorController::class, 'store']);
 
     // Route::get('/jwt', function(Request $request) {
     //     $user = $request->user();

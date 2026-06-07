@@ -17,14 +17,12 @@ class InstructorController extends Controller
             'writing' => 'required|string|in:no,yes|max:255',
             'speaking' => 'required|string|in:no,wordsOnly,MSA,multiple,native|max:255',
             'languages' => 'required|array',
-            'isMuslim' => 'required|boolean',
             'titles' => 'nullable|array',
             'courseCategories' => 'required|array',
             
         ]);
 
         $validated['course_categories'] = $validated['courseCategories'];
-        $validated['is_muslim'] = $validated['isMuslim'];
 
         $instructor = $request->user()->instructor()->create($validated);
 

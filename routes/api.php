@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Http\Controllers\InstructorController;
+use App\Http\Resources\UserResource;
 
 
 Route::post('/sanctum/token', function (Request $request) {
@@ -24,9 +25,11 @@ Route::post('/sanctum/token', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+    $user->load('instructor');
  
     return  [
-        'user' => $user,
+        'user' => new UserResource($user),
         'token' => $user->createToken($validated['device_name'])->plainTextToken,
     ];
 });
@@ -77,7 +80,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        $user = $request->user();
+        $user->load('instructor');
+        return new UserResource($user);
     });
 
     Route::post('/instructors', [InstructorController::class, 'store']);

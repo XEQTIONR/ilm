@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('writing');
             $table->string('speaking');
             $table->json('languages');
-            $table->boolean('is_muslim');
             $table->json('course_categories');
             $table->json('titles')->nullable();
             $table->timestamps();

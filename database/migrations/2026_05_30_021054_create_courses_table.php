@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->longText('description');
+            $table->text('difficulty');
+            $table->text('category');
+            $table->text('length_type');
+            $table->json('age_groups');
             $table->string('image')->nullable();
             $table->string('video')->nullable();
             $table->integer('total_lessons')->nullable();

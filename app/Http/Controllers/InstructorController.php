@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\UserResource;
 
 class InstructorController extends Controller
 {
@@ -24,8 +25,10 @@ class InstructorController extends Controller
 
         $validated['course_categories'] = $validated['courseCategories'];
 
-        $instructor = $request->user()->instructor()->create($validated);
+        $request->user()->instructor()->create($validated);
+        $user = $request->user();
+        $user->load('instructor');
 
-        return $instructor;
+        return new UserResource($user);
     }
 }

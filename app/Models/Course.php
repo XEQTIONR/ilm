@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 
 
-#[Fillable(['title', 'description', 'image', 'video', 'total_lessons', 'status', 'owned_by_id', 'meta'])]
+#[Fillable(['title', 'description', 'difficulty', 'category', 'length_type', 'age_groups', 'image', 'video', 'total_lessons', 'status', 'owned_by_id', 'meta'])]
 class Course extends Model
 {
     use HasFactory;
@@ -17,6 +17,7 @@ class Course extends Model
     {
         return [
             'meta' => 'array',
+            'age_groups' => 'array',
         ];
     }
 

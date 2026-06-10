@@ -19,7 +19,7 @@ class CourseController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'difficulty' => 'required|string',
@@ -27,11 +27,11 @@ class CourseController extends Controller
             'length_type' => 'required|string',
             'age_groups' => 'required|array',
             'age_groups.*' => 'required|string',
-            // 'image' => 'nullable|string',
-            // 'video' => 'nullable|string',
+            'image' => 'nullable|string|max:255',
+            'video' => 'nullable|string|max:255',
         ]);
 
-        $course = new Course($request->all());
+        $course = new Course($validated);
         $user = $request->user();
         $user->courses()->save($course);
 

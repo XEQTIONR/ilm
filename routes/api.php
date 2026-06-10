@@ -11,6 +11,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\CourseBannerController;    
 use App\Http\Controllers\CourseVideoController;
+use App\Http\Controllers\UploadController;
 
 Route::post('/sanctum/token', function (Request $request) {
     $validated = $request->validate([
@@ -76,13 +77,13 @@ Route::middleware('auth:sanctum')->group(function () {
         return $token;
     });
 
-
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-
     Route::post('/courses/{course}/banner', CourseBannerController::class)->name('courses.banner.store');
     Route::post('/courses/{course}/video', CourseVideoController::class)->name('courses.video.store');
 
+    Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
+    Route::delete('/uploads/{upload}', [UploadController::class, 'destroy'])->name('uploads.destroy');
 
     Route::get('/user', function (Request $request) {
         $user = $request->user();
@@ -91,15 +92,5 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/instructors', [InstructorController::class, 'store']);
-
-    // Route::get('/jwt', function(Request $request) {
-    //     $user = $request->user();
-    //     $token = auth('api')->claims(['name' => $user->name])->login($user);
-
-    //     return [
-    //         'user' => $user,
-    //         'token' => $token
-    //     ];
-    // });
 });
 

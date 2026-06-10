@@ -9,7 +9,8 @@ use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Http\Controllers\InstructorController;
 use App\Http\Resources\UserResource;
-
+use App\Http\Controllers\CourseBannerController;    
+use App\Http\Controllers\CourseVideoController;
 
 Route::post('/sanctum/token', function (Request $request) {
     $validated = $request->validate([
@@ -76,8 +77,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::post('/courses', [CourseController::class, 'store']);
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+
+    Route::post('/courses/{course}/banner', CourseBannerController::class)->name('courses.banner.store');
+    Route::post('/courses/{course}/video', CourseVideoController::class)->name('courses.video.store');
 
 
     Route::get('/user', function (Request $request) {

@@ -20,12 +20,15 @@ class InstructorController extends Controller
             'languages' => 'required|array',
             'titles' => 'nullable|array',
             'courseCategories' => 'required|array',
+            'availability' => 'required|array',
             
         ]);
 
         $validated['course_categories'] = $validated['courseCategories'];
+        $instructor = $request->user()->instructor()->create($validated);
 
-        $request->user()->instructor()->create($validated);
+        $availability = $instructor->availability()->create($validated['availability']);
+
         $user = $request->user();
         $user->load('instructor');
 

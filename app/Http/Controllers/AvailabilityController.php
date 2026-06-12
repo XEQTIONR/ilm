@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Availibility;
-class AvailibilityController extends Controller
+use App\Models\Availability;
+class AvailabilityController extends Controller
 {
     //
 
@@ -24,7 +24,7 @@ class AvailibilityController extends Controller
             'meta' => 'nullable|array',
         ]);
 
-        $availibility = Availibility::create($validated);
-        return response()->json($availibility);
+        $availability = Availability::create($validated);
+        return response()->json($availability);
     }
 }

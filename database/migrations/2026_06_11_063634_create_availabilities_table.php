@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('availibilities', function (Blueprint $table) {
+        Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->date('start_date');
+            $table->foreignId('instructor_id')->constrained('instructors');
+            $table->date('start_date')->default(now());
             $table->date('end_date')->nullable();
-            $table->json('monday')->nullable();
-            $table->json('tuesday')->nullable();
-            $table->json('wednesday')->nullable();
-            $table->json('thursday')->nullable();
-            $table->json('friday')->nullable();
-            $table->json('saturday')->nullable();
-            $table->json('sunday')->nullable();
+            $table->json('mon')->nullable();
+            $table->json('tue')->nullable();
+            $table->json('wed')->nullable();
+            $table->json('thu')->nullable();
+            $table->json('fri')->nullable();
+            $table->json('sat')->nullable();
+            $table->json('sun')->nullable();
             $table->json('exceptions')->nullable();
             $table->json('meta')->nullable();
             $table->timestamps();
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('availibilities');
+        Schema::dropIfExists('availabilities');
     }
 };

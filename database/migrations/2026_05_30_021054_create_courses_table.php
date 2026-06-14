@@ -23,12 +23,11 @@ return new class extends Migration
             $table->string('video')->nullable();
             $table->integer('total_lessons')->nullable();
             $table->string('status')->default('created');
+            $table->boolean('is_published')->default(false);
             $table->foreignId('owned_by_id')->constrained('users');
             $table->json('meta')->nullable();
             $table->timestamps();
         });
-
-       
     }
 
     /**

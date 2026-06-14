@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_configs', function (Blueprint $table) {
+        Schema::create('course_formats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained('courses');
+            $table->string('title');
+            $table->string('description');
+            $table->string('unit');
+            $table->integer('lesson_length');
             $table->integer('lessons_per_week');
-            $table->integer('lesson_duration');
             $table->integer('price');
+            $table->integer('billing_cycles');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_configs');
+        Schema::dropIfExists('course_formats');
     }
 };

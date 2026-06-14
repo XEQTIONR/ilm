@@ -18,12 +18,19 @@ class CourseResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'image' => $this->image,
+            'video' => $this->video,
             'difficulty' => $this->difficulty,
             'category' => $this->category,
             'length_type' => $this->length_type,
             'age_groups' => $this->age_groups,
+            'is_published' => $this->is_published,
+            'total_lessons' => $this->total_lessons,
             $this->mergeWhen($this->relationLoaded('user'), [
                 'user' => new UserResource($this->user),
+            ]),
+            $this->mergeWhen($this->relationLoaded('formats'), [
+                'formats' => CourseFormatResource::collection($this->formats),
             ]),
         ];
     }

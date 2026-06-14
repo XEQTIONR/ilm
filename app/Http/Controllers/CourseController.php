@@ -22,19 +22,31 @@ class CourseController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'difficulty' => 'required|string',
-            'category' => 'required|string',
-            'length_type' => 'required|string',
-            'age_groups' => 'required|array',
-            'age_groups.*' => 'required|string',
             'image' => 'nullable|string|max:255',
             'video' => 'nullable|string|max:255',
+            'difficulty' => 'required|string|in:beginner,intermediate,advanced',
+            'category' => 'required|string|in:reading,qScience,hScience,calligraphy',
+            'length_type' => 'required|string|in:fixed,ongoing',
+            'age_groups' => 'required|array',
+            'age_groups.*' => 'required|string|in:kids,teens,youngAdults,seniors',
+            'is_published' => 'required|boolean',
+            'formats' => 'required|array|min:1',
+            'formats.*.title' => 'required|string|max:255',
+            'formats.*.description' => 'required|string',
+            'formats.*.unit' => 'required|string',
+            'formats.*.lesson_length' => 'required|integer',
+            'formats.*.lessons_per_week' => 'required|integer',
+            'formats.*.price' => 'required|numeric|min:0',
+            'formats.*.billing_cycles' => 'required|integer',
         ]);
 
         $course = new Course($validated);
         $user = $request->user();
         $user->courses()->save($course);
 
+        $course->formats()->createMany($validated['formats']);
+        $course->load('formats');
+    
         return new CourseResource($course);
     }
 }

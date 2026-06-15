@@ -21,7 +21,7 @@ class CourseFormatResource extends JsonResource
             'unit' => $this->unit,
             'lesson_length' => $this->lesson_length,
             'lessons_per_week' => $this->lessons_per_week,
-            'price' => $this->price / 100,
+            'price' => $this->price,
             'billing_cycles' => $this->billing_cycles,
             'created_at' => $this->created_at->toISOString(),
             'updated_at' => $this->updated_at->toISOString(),

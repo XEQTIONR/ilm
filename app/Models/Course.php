@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 #[Fillable(['title', 'description', 'difficulty', 'category', 'length_type', 'age_groups', 'image', 'is_published', 'video', 'total_lessons', 'status', 'meta'])]
 class Course extends Model
@@ -30,5 +31,10 @@ class Course extends Model
     public function formats(): HasMany
     {
         return $this->hasMany(CourseFormat::class);
+    }
+
+    public function enrollments(): HasManyThrough
+    {
+        return $this->hasManyThrough(Enrollment::class, CourseFormat::class);
     }
 }

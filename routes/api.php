@@ -12,6 +12,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Controllers\CourseBannerController;    
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UploadController;
+use App\Http\Resources\CourseResource;
 
 Route::post('/sanctum/token', function (Request $request) {
     $validated = $request->validate([
@@ -59,7 +60,7 @@ Route::post('/register', function(Request $request) {
 });
 
 Route::get('/feed', function() {
-    return Course::all();
+    return CourseResource::collection(Course::with('formats')->get());
 });
 
 

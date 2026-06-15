@@ -20,7 +20,9 @@ return new class extends Migration
             $table->integer('lesson_length');
             $table->integer('lessons_per_week');
             $table->integer('price');
+            $table->string('currency')->default('USD');
             $table->integer('billing_cycles');
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
     }

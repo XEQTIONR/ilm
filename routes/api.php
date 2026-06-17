@@ -13,6 +13,7 @@ use App\Http\Controllers\CourseBannerController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UploadController;
 use App\Http\Resources\CourseResource;
+use App\Http\Controllers\CourseAvailabilityController;
 
 Route::post('/sanctum/token', function (Request $request) {
     $validated = $request->validate([
@@ -62,6 +63,8 @@ Route::post('/register', function(Request $request) {
 Route::get('/feed', function() {
     return CourseResource::collection(Course::with('formats')->get());
 });
+
+Route::get('/courses/{course}/availabilities', CourseAvailabilityController::class)->name('courses.availabilities.index');
 
 
 Route::middleware('auth:sanctum')->group(function () {

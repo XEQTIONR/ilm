@@ -26,7 +26,7 @@ class Instructor extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function availability(): HasMany
+    public function availabilities(): HasMany
     {
         return $this->hasMany(Availability::class);
     }

@@ -25,6 +25,11 @@ class UserResource extends JsonResource
                 'instructor' => new InstructorResource($this->instructor),
                 'isInstructor' => $this->instructor ? true : false,
             ]),
+
+            $this->mergeWhen($this->relationLoaded('enrollments'), [
+                'enrollments' => EnrollmentResource::collection($this->enrollments),
+                'hasActiveEnrollment' => $this->enrollments->where('status', 'active')->count() > 0,
+            ]),
         ];
     }
 }

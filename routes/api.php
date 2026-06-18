@@ -94,7 +94,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', function (Request $request) {
         $user = $request->user();
-        $user->load('instructor');
+        $user->load([
+            'instructor', 
+            'enrollments' => function ($query) {
+                $query->active();
+            }
+        ]);
         return new UserResource($user);
     });
 

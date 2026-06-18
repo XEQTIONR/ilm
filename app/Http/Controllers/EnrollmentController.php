@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Enrollment;
+use App\Http\Resources\EnrollmentResource;
 use App\Models\CourseFormat;
+use App\Models\Enrollment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class EnrollmentController extends Controller
@@ -40,6 +41,6 @@ class EnrollmentController extends Controller
         $enrollment->user()->associate($request->user());
         $enrollment->save();
 
-        return $enrollment;
+        return new EnrollmentResource($enrollment);
     }
 }

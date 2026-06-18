@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\CourseController;
-use App\Models\Course;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
-use App\Models\User;
-use App\Http\Controllers\InstructorController;
-use App\Http\Resources\UserResource;
+use App\Http\Controllers\CourseAvailabilityController;
 use App\Http\Controllers\CourseBannerController;    
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseVideoController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\UploadController;
 use App\Http\Resources\CourseResource;
-use App\Http\Controllers\CourseAvailabilityController;
+use App\Http\Resources\UserResource;
+use App\Models\Course;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 Route::post('/sanctum/token', function (Request $request) {
     $validated = $request->validate([
@@ -80,6 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         return $token;
     });
+
+    Route::post('/enrollments/{format}', [EnrollmentController::class, 'store'])->name('enrollments.store');
 
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');

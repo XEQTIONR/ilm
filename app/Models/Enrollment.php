@@ -27,6 +27,11 @@ class Enrollment extends Model
         return $this->belongsTo(CourseFormat::class, 'course_format_id');
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected function price(): Attribute
     {
         return Attribute::make(

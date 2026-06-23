@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('instructor_id')->constrained('instructors');
-            $table->date('start_date')->default(now());
-            $table->date('end_date')->nullable();
+            $table->timestamp('start_at')->default(now());
+            $table->timestamp('end_at')->nullable();
+            $table->string('timezone')->default('UTC');
             $table->json('mon')->nullable();
             $table->json('tue')->nullable();
             $table->json('wed')->nullable();

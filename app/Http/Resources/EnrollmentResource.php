@@ -16,8 +16,8 @@ class EnrollmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'start_date' => $this->start_date->toISOString(),
-            'end_date' => $this->end_date->toISOString(),
+            'start_at' => $this->start_at->toISOString(),
+            'end_date' => $this->end_at->toISOString(),
             'price' => $this->price,
             'currency' => $this->currency,
             'status' => $this->status,
@@ -26,10 +26,6 @@ class EnrollmentResource extends JsonResource
 
             $this->mergeWhen($this->relationLoaded('format'), [
                 'format' => new CourseFormatResource($this->format),
-            ]),
-
-            $this->mergeWhen($this->relationLoaded('course'), [
-                'course' => new CourseResource($this->course),
             ]),
         ];
     }

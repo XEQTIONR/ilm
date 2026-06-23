@@ -16,7 +16,7 @@ class CourseAvailabilityController extends Controller
     {
         return AvailabilityResource::collection(
             Availability::where('instructor_id', $course->owned_by_id)
-                ->whereDate('start_date', '<=', now())
+                ->whereDate('start_at', '<=', now())
                 ->where(function ($query) {
                     $query->whereDate('end_date', '>=', now())
                         ->orWhere(function($query) {

@@ -7,10 +7,21 @@ use App\Models\CourseFormat;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class EnrollmentController extends Controller
 {
     //
+
+    public function index(Request $request)
+    {
+        $user = Auth::user();        
+
+        $enrollments = $user->enrollments()->active()->with('format.course')->get();
+        // return $enrollments;
+        return EnrollmentResource::collection($enrollments);
+    }
 
     public function store(Request $request, CourseFormat $format)
     {
@@ -30,8 +41,8 @@ class EnrollmentController extends Controller
 
         $enrollment = new Enrollment();
         // $enrollment->course_format_id = $validated['course_format_id'];
-        $enrollment->start_date = now();
-        $enrollment->end_date = now()->addDays(30);
+        $enrollment->start_at = now();
+        $enrollment->end_at = now()->addDays(30);
         $enrollment->price = $format->price;
         $enrollment->currency = 'USD';
         $enrollment->status = 'active';

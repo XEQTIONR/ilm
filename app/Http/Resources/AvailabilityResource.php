@@ -17,8 +17,8 @@ class AvailabilityResource extends JsonResource
         return [
             'id' => $this->id,
             'instructor_id' => $this->instructor_id,
-            'start_date' => $this->start_date->toISOString(),
-            'end_date' => $this->end_date ? $this->end_date->toISOString() : null,
+            'start_at' => $this->start_at->toISOString(),
+            'end_at' => $this->end_at ? $this->end_at->toISOString() : null,
             'mon' => $this->mon,
             'tue' => $this->tue,
             'wed' => $this->wed,

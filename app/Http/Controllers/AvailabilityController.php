@@ -11,8 +11,9 @@ class AvailabilityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date',
+            'start_at' => 'required|timestamp',
+            'end_at' => 'nullable|timestamp',
+            'timezone' => 'required|timezone',
             'monday' => 'nullable|array',
             'tuesday' => 'nullable|array',
             'wednesday' => 'nullable|array',

@@ -25,6 +25,10 @@ class CourseFormatResource extends JsonResource
             'billing_cycles' => $this->billing_cycles,
             'created_at' => $this->created_at->toISOString(),
             'updated_at' => $this->updated_at->toISOString(),
+
+            $this->mergeWhen($this->relationLoaded('course'), [
+                'course' => new CourseResource($this->course),
+            ]),
         ];
     }
 }

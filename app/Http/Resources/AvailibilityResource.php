@@ -16,8 +16,8 @@ class AvailibilityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_at' => $this->start_at,
+            'end_at' => $this->end_at,
             'monday' => $this->monday,
             'tuesday' => $this->tuesday,
             'wednesday' => $this->wednesday,

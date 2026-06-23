@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('course_format_id')->constrained('course_formats');
             $table->integer('length');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->timestamp('start_at');
+            $table->timestamp('end_at');
             $table->integer('price');
             $table->string('currency')->default('USD');
             $table->string('status')->default('pending');

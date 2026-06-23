@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['instructor_id', 'start_date', 'end_date', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'exceptions', 'meta'])]
+#[Fillable(['instructor_id', 'start_at', 'end_at', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'exceptions', 'timezone', 'meta'])]
 class Availability extends Model
 {
     use SoftDeletes;
@@ -15,8 +15,9 @@ class Availability extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'date',
-            'end_date' => 'date',
+            'start_at' => 'timestamp',
+            'end_at' => 'timestamp',
+            'timezone' => 'string',
             'mon' => 'array',
             'tue' => 'array',
             'wed' => 'array',

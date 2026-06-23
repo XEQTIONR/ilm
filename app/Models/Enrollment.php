@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
-#[Fillable(['user_id', 'course_format_id', 'length', 'start_date', 'end_date', 'price', 'currency', 'status', 'schedule'])]
+#[Fillable(['user_id', 'course_format_id', 'length', 'start_at', 'end_at', 'price', 'currency', 'status', 'schedule'])]
 class Enrollment extends Model
 {
     //
@@ -18,8 +18,8 @@ class Enrollment extends Model
     {
         return [
             'length' => 'integer',
-            'start_date' => 'date',
-            'end_date' => 'date',
+            'start_at' => 'timestamp',
+            'end_at' => 'timestamp',
             'schedule' => 'array',
         ];
     }
@@ -45,10 +45,10 @@ class Enrollment extends Model
     #[Scope]
     protected function active(Builder $query): Builder
     {
-        return $query->where('start_date', '<=', now())
+        return $query->where('start_at', '<=', now())
             ->where(function ($query) {
-                $query->where('end_date', '>=', now())
-                    ->orWhereNull('end_date');
+                $query->where('end_at', '>=', now())
+                    ->orWhereNull('end_at');
             });
     }
 }

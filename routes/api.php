@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UploadController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\UserResource;
@@ -48,6 +49,7 @@ Route::post('/register', function(Request $request) {
         'gender' => 'required|string|max:6|in:male,female',
         'birthday' => 'required|date',
         'device_name' => 'required|string|max:255',
+        'timezone' => 'required|timezone|max:255',
     ]);
 
     $user = User::create([
@@ -82,6 +84,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $token;
     });
 
+    Route::get('/enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
     Route::post('/enrollments/{format}', [EnrollmentController::class, 'store'])->name('enrollments.store');
 
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');

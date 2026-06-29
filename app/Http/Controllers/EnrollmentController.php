@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Resources\EnrollmentResource;
 use App\Models\CourseFormat;
 use App\Models\Enrollment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class EnrollmentController extends Controller
 {
-    //
-
-    public function index(Request $request)
+    public function index()
     {
         $user = Auth::user();        
 
@@ -25,10 +22,9 @@ class EnrollmentController extends Controller
 
     public function store(Request $request, CourseFormat $format)
     {
-        Log::info($request->all());
         $validated = $request->validate([
             // 'course_format_id' => 'required|exists:course_formats,id',
-            //'start_date' => 'nullable|date',
+            'start_at' => 'date',
             //'end_date' => 'nullable|date',
             // 'price' => 'required|numeric|min:0',
             // 'length' => 'required|integer|min:30',
@@ -41,8 +37,8 @@ class EnrollmentController extends Controller
 
         $enrollment = new Enrollment();
         // $enrollment->course_format_id = $validated['course_format_id'];
-        $enrollment->start_at = now();
-        $enrollment->end_at = now()->addDays(30);
+        $enrollment->start_at = $validated['start_at'];
+        $enrollment->end_at = new Carbon($validated['start_at'])->addDays(30);
         $enrollment->price = $format->price;
         $enrollment->currency = 'USD';
         $enrollment->status = 'active';

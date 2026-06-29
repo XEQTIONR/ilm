@@ -15,8 +15,8 @@ class Availability extends Model
     protected function casts(): array
     {
         return [
-            'start_at' => 'timestamp',
-            'end_at' => 'timestamp',
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
             'timezone' => 'string',
             'mon' => 'array',
             'tue' => 'array',

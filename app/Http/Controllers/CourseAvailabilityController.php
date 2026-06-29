@@ -15,12 +15,13 @@ class CourseAvailabilityController extends Controller
     public function __invoke(Course $course)
     {
         return AvailabilityResource::collection(
-            Availability::where('instructor_id', $course->owned_by_id)
+            Availability::with('instructor')
+                ->where('instructor_id', $course->owned_by_id)
                 ->whereDate('start_at', '<=', now())
                 ->where(function ($query) {
-                    $query->whereDate('end_date', '>=', now())
+                    $query->whereDate('end_at', '>=', now())
                         ->orWhere(function($query) {
-                            $query->whereNull('end_date');
+                            $query->whereNull('end_at');
                         });
                 })
                 ->get()

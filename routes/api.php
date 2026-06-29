@@ -33,10 +33,11 @@ Route::post('/sanctum/token', function (Request $request) {
     }
 
     $user->load('instructor');
- 
+    $token = $user->createToken($validated['device_name'])->plainTextToken;
+
     return  [
         'user' => new UserResource($user),
-        'token' => $user->createToken($validated['device_name'])->plainTextToken,
+        'token' => $token,
     ];
 });
 
@@ -57,9 +58,11 @@ Route::post('/register', function(Request $request) {
         'password' => Hash::make($validated['password']),
     ]);
 
+    $token = $user->createToken($validated['device_name'])->plainTextToken;
+
     return  [
         'user' => $user,
-        'token' => $user->createToken($validated['device_name'])->plainTextToken,
+        'token' => $token,
     ];
 });
 

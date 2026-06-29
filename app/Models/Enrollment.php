@@ -18,8 +18,8 @@ class Enrollment extends Model
     {
         return [
             'length' => 'integer',
-            'start_at' => 'timestamp',
-            'end_at' => 'timestamp',
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
             'schedule' => 'array',
         ];
     }

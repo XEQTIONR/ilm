@@ -8,7 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['title', 'description', 'unit', 'lesson_length', 'lessons_per_week', 'price', 'currency', 'billing_cycles', 'default'])]
+#[Fillable([
+    'title', 
+    'description', 
+    'unit', 
+    'lesson_length', 
+    'lessons_per_week', 
+    'total_lessons', 
+    'price', 
+    'currency', 
+    'billing_cycles', 
+    'default'
+])]
 class CourseFormat extends Model
 {
 

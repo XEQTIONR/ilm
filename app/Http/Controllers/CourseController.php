@@ -36,6 +36,7 @@ class CourseController extends Controller
             'formats.*.unit' => 'required|string',
             'formats.*.lesson_length' => 'required|integer',
             'formats.*.lessons_per_week' => 'required|integer',
+            'formats.*.total_lessons' => 'required|integer|min:0',
             'formats.*.price' => 'required|numeric|min:0',
             'formats.*.billing_cycles' => 'required|integer',
         ]);

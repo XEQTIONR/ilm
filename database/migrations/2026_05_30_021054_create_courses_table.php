@@ -21,7 +21,6 @@ return new class extends Migration
             $table->json('age_groups');
             $table->string('image')->nullable();
             $table->string('video')->nullable();
-            $table->integer('total_lessons')->nullable();
             $table->string('status')->default('created');
             $table->boolean('is_published')->default(false);
             $table->foreignId('owned_by_id')->constrained('users');

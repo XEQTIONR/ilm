@@ -9,7 +9,19 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-#[Fillable(['title', 'description', 'difficulty', 'category', 'length_type', 'age_groups', 'image', 'is_published', 'video', 'total_lessons', 'status', 'meta'])]
+#[Fillable([
+    'title', 
+    'description', 
+    'difficulty', 
+    'category', 
+    'length_type', 
+    'age_groups', 
+    'image', 
+    'is_published', 
+    'video', 
+    'status', 
+    'meta'
+])]
 class Course extends Model
 {
     use HasFactory;

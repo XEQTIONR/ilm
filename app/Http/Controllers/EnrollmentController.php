@@ -36,7 +36,6 @@ class EnrollmentController extends Controller
         ]);
 
         $enrollment = new Enrollment();
-        // $enrollment->course_format_id = $validated['course_format_id'];
         $enrollment->start_at = $validated['start_at'];
         $enrollment->end_at = new Carbon($validated['start_at'])->addDays(30);
         $enrollment->price = $format->price;
@@ -46,7 +45,9 @@ class EnrollmentController extends Controller
         $enrollment->schedule = $validated['schedule'];
         $enrollment->format()->associate($format);
         $enrollment->user()->associate($request->user());
+        
         $enrollment->save();
+        $enrollment->load('format.course', 'user');
 
         return new EnrollmentResource($enrollment);
     }

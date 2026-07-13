@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('unit');
             $table->integer('lesson_length');
+            $table->integer('total_lessons');
             $table->integer('lessons_per_week');
             $table->integer('price');
             $table->string('currency')->default('USD');

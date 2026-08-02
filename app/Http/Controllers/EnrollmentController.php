@@ -7,7 +7,9 @@ use App\Models\CourseFormat;
 use App\Models\Enrollment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EnrollmentController extends Controller
 {
@@ -15,17 +17,20 @@ class EnrollmentController extends Controller
     {
         $user = Auth::user();        
 
-        $enrollments = $user->enrollments()->active()->with('format.course')->get();
+        $enrollments = $user->enrollments()->active()->with('format.course.instructor')->get();
         // return $enrollments;
         return EnrollmentResource::collection($enrollments);
     }
 
     public function store(Request $request, CourseFormat $format)
     {
+
+        Log::info('all:', $request->all());
+
         $validated = $request->validate([
             // 'course_format_id' => 'required|exists:course_formats,id',
             'start_at' => 'date',
-            //'end_date' => 'nullable|date',
+            'end_at' => 'nullable|date',
             // 'price' => 'required|numeric|min:0',
             // 'length' => 'required|integer|min:30',
             // 'currency' => 'required|string|max:3|min:3',
@@ -37,7 +42,7 @@ class EnrollmentController extends Controller
 
         $enrollment = new Enrollment();
         $enrollment->start_at = $validated['start_at'];
-        $enrollment->end_at = new Carbon($validated['start_at'])->addDays(30);
+        $enrollment->end_at = Arr::exists($validated, 'end_at') && $validated['end_at'] ? new Carbon($validated['end_at']) : null;
         $enrollment->price = $format->price;
         $enrollment->currency = 'USD';
         $enrollment->status = 'active';

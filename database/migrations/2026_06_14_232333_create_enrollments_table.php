@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('course_format_id')->constrained('course_formats');
             $table->integer('length');
             $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->timestamp('end_at')->nullable();
             $table->integer('price');
             $table->string('currency')->default('USD');
             $table->string('status')->default('pending');

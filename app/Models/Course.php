@@ -35,9 +35,9 @@ class Course extends Model
         ];
     }
 
-    public function ownedBy(): BelongsTo
+    public function instructor(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owned_by_id');
     }
 
     public function formats(): HasMany

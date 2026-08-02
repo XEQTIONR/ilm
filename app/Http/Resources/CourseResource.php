@@ -27,8 +27,8 @@ class CourseResource extends JsonResource
             'age_groups' => $this->age_groups,
             'is_published' => $this->is_published,
             'total_lessons' => $this->total_lessons,
-            $this->mergeWhen($this->relationLoaded('user'), [
-                'user' => new UserResource($this->user),
+            $this->mergeWhen($this->relationLoaded('instructor'), [
+                'instructor' => new UserResource($this->instructor),
             ]),
             $this->mergeWhen($this->relationLoaded('formats'), [
                 'formats' => CourseFormatResource::collection($this->formats),

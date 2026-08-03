@@ -23,7 +23,8 @@ class EnrollmentResource extends JsonResource
             'status' => $this->status,
             'length' => $this->length,
             'schedule' => $this->schedule,
-
+            'timezone' => $this->timezone,
+            
             $this->mergeWhen($this->relationLoaded('format'), [
                 'format' => new CourseFormatResource($this->format),
             ]),

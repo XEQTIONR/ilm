@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
-#[Fillable(['user_id', 'course_format_id', 'length', 'start_at', 'end_at', 'price', 'currency', 'status', 'schedule'])]
+#[Fillable(['user_id', 'course_format_id', 'length', 'start_at', 'end_at', 'price', 'currency', 'status', 'schedule', 'timezone'])]
 class Enrollment extends Model
 {
     //
@@ -21,6 +21,7 @@ class Enrollment extends Model
             'start_at' => 'datetime',
             'end_at' => 'datetime',
             'schedule' => 'array',
+            'timezone' => 'string',
         ];
     }
 

@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'created_at' => $this->created_at->toISOString(),
             'updated_at' => $this->updated_at->toISOString(),
+            'timezone' => $this->timezone,
 
             $this->mergeWhen($this->relationLoaded('instructor'), [
                 'instructor' => new InstructorResource($this->instructor),

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('currency')->default('USD');
             $table->string('status')->default('pending');
+            $table->string('timezone');
             $table->json('schedule');
             $table->timestamps();
         });

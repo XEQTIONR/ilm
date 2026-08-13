@@ -67,7 +67,7 @@ Route::post('/register', function(Request $request) {
 });
 
 Route::get('/feed', function() {
-    return CourseResource::collection(Course::with('formats')->get());
+    return CourseResource::collection(Course::with('instructor', 'formats')->get());
 });
 
 Route::get('/courses/{course}/availabilities', CourseAvailabilityController::class)->name('courses.availabilities.index');

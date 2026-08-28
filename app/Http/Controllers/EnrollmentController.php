@@ -14,14 +14,29 @@ use Illuminate\Support\Facades\Log;
 class EnrollmentController extends Controller
 {
     public function index(Request $request)
-    {      
+    {
+        // $a = $request
+        // ->user()
+        // ->enrollments()
+        // ->active()
+        // ->with('format.course.instructor', 'user')
+        // ->get(); 
+        
+        // $b = 
         return EnrollmentResource::collection(
             $request
                 ->user()
                 ->enrollments()
                 ->active()
-                ->with('format.course.instructor')
+                ->with('format.course.instructor', 'user')
                 ->get()
+                ->merge(
+                    Enrollment::with('format.course.instructor', 'user')
+                       ->whereHas('format.course', function ($query) use ($request) {
+                            $query->where('owned_by_id', $request->user()->id);
+                            // $query->where('status', 'active');
+                       })->get()
+                )
         );
     }
 

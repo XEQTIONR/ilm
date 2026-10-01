@@ -18,8 +18,6 @@ class EnrollmentResource extends JsonResource
             'id' => $this->id,
             'start_at' => $this->start_at->toISOString(),
             'end_at' => $this->end_at ? $this->end_at->toISOString() : null,
-            'price' => $this->price,
-            'currency' => $this->currency,
             'status' => $this->status,
             'length' => $this->length,
             'schedule' => $this->schedule,

@@ -18,8 +18,6 @@ return new class extends Migration
             $table->integer('length');
             $table->timestamp('start_at');
             $table->timestamp('end_at')->nullable();
-            $table->integer('price');
-            $table->string('currency')->default('USD');
             $table->string('status')->default('pending');
             $table->string('timezone');
             $table->json('schedule');

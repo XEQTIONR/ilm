@@ -56,8 +56,8 @@ class EnrollmentController extends Controller
         $enrollment = new Enrollment([
             'start_at' => $validated['start_at'],
             'end_at' => Arr::exists($validated, 'end_at') && $validated['end_at'] ? new Carbon($validated['end_at']) : null,
-            'price' => $format->price,
-            'currency' => 'USD',
+            // 'price' => $format->price,
+            //'currency' => 'USD', // set in the purchase model
             'status' => 'active',
             'length' => $format->lesson_length,
             'schedule' => $validated['schedule'],

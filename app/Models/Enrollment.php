@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
-#[Fillable(['user_id', 'course_format_id', 'length', 'start_at', 'end_at', 'price', 'currency', 'status', 'schedule', 'timezone'])]
+#[Fillable(['user_id', 'course_format_id', 'length', 'start_at', 'end_at', 'status', 'schedule', 'timezone'])]
 class Enrollment extends Model
 {
     //
@@ -33,14 +33,6 @@ class Enrollment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
     }
 
     #[Scope]

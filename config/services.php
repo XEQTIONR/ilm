@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET_KEY'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        'platform_price_id' => env('STRIPE_PLATFORM_PRICE_ID'),
+    ],
+
 ];

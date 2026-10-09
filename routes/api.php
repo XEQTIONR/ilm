@@ -6,7 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InstructorController;
-use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\StripeConnectController;
 use App\Http\Controllers\UploadController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\UserResource;
@@ -70,7 +70,6 @@ Route::get('/feed', function() {
     return CourseResource::collection(Course::with('instructor', 'formats')->get());
 });
 
-Route::get('/courses/{course}/availabilities', CourseAvailabilityController::class)->name('courses.availabilities.index');
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -87,16 +86,27 @@ Route::middleware('auth:sanctum')->group(function () {
         return $token;
     });
 
-    Route::get('/enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
-    Route::post('/enrollments/{format}', [EnrollmentController::class, 'store'])->name('enrollments.store');
+    Route::name('enrollments.')->prefix('enrollments')->group(function () {
+        Route::get('/', [EnrollmentController::class, 'index'])->name('index');
+        Route::post('/{format}', [EnrollmentController::class, 'store'])->name('store');
+    });
 
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-    Route::post('/courses/{course}/banner', CourseBannerController::class)->name('courses.banner.store');
-    Route::post('/courses/{course}/video', CourseVideoController::class)->name('courses.video.store');
+    Route::name('courses.')->prefix('courses')->group(function () {
+        Route::get('/', [CourseController::class, 'index'])->name('index');
+        Route::post('/', [CourseController::class, 'store'])->name('store');
+        Route::post('/{course}/banner', CourseBannerController::class)->name('banner.store');
+        Route::post('/{course}/video', CourseVideoController::class)->name('video.store');
 
-    Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
-    Route::delete('/uploads/{upload}', [UploadController::class, 'destroy'])->name('uploads.destroy');
+        Route::get('/{course}/availabilities', CourseAvailabilityController::class)->name('availabilities.index');
+
+    });
+
+    Route::name('uploads.')->prefix('uploads')->group(function () {
+        Route::post('/', [UploadController::class, 'store'])->name('store');
+        Route::delete('/{upload}', [UploadController::class, 'destroy'])->name('destroy');
+    });
+
+    
 
     Route::get('/user', function (Request $request) {
         $user = $request->user();
@@ -110,5 +120,13 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/instructors', [InstructorController::class, 'store']);
+
+    Route::name('stripe.connect.')->prefix('stripe/connect')->group(function () {
+        Route::get('/', [StripeConnectController::class, 'index'])->name('index');
+        Route::post('/', [StripeConnectController::class, 'store'])->name('store');
+        Route::get('/onboard', [StripeConnectController::class, 'onboard'])->name('onboard');
+        Route::get('/return',[StripeConnectController::class, 'return'])->name('return');
+        Route::get('/refresh',[StripeConnectController::class, 'refresh'])->name('refresh');
+    });
 });
 

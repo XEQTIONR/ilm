@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Stripe;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Services\StripeService;
-use Stripe\V2\Core\Account as StripeAccount; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Stripe\V2\Core\Account as StripeAccount; 
 use Throwable;
 
 class StripeConnectController extends Controller
@@ -182,29 +183,101 @@ class StripeConnectController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Generate a Stripe-hosted onboarding URL.
      */
     public function onboard(Request $request)
     {
-        //
+        Log::info("In onboard");
+        $user = Auth::user();
+
+        if (!$user->stripe_account_id) {
+            return redirect()
+                ->route('stripe.connect')
+                ->with('error', 'Create your Stripe account first.');
+        }
+
+        try {
+            $accountLink = $this->stripe->client()
+                ->v2
+                ->core
+                ->accountLinks
+                ->create([
+                    'account' => $user->stripe_account_id,
+
+                    'use_case' => [
+                        'type' => 'account_onboarding',
+
+                        'account_onboarding' => [
+                            /*
+                                * Must exactly match the configurations
+                                * applied to the account in create().
+                                */
+                            'configurations' => ['merchant'],
+
+                            'refresh_url' => route(
+                                'stripe.connect.refresh'
+                            ),
+
+                            'return_url' => route(
+                                'stripe.connect.return',
+                                [
+                                    'accountId' =>
+                                        $user->stripe_account_id,
+                                ]
+                            ),
+                        ],
+                    ],
+                ]);
+
+            /*
+                * Account Links are temporary/single-use onboarding URLs.
+                * Redirect the user immediately.
+                */
+            return redirect()->away($accountLink->url);
+
+        } catch (Throwable $e) {
+
+            Log::error('Stripe onboarding link creation failed.', [
+                'user_id' => $user->id,
+                'stripe_account_id' => $user->stripe_account_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return back()->with(
+                'error',
+                'Unable to start Stripe onboarding: ' . $e->getMessage()
+            );
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Stripe redirects here after onboarding.
+     *
+     * IMPORTANT:
+     * Returning here does not itself prove that onboarding is complete.
+     * We retrieve the account from Stripe again.
      */
     public function return(Request $request)
     {
-        //
+        return redirect()
+            ->route('stripe.connect')
+            ->with('success', 'Stripe onboarding returned successfully.');
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * Stripe sends the user here when an Account Link expires or
+     * otherwise needs to be regenerated.
      */
     public function refresh(Request $request)
     {
-        //
+        return redirect()
+            ->route('stripe.connect')
+            ->with(
+                'error',
+                'Your Stripe onboarding link expired. Please start onboarding again.'
+            );
     }
-
 
     private function getAccountStatus(StripeAccount $account): array
     {

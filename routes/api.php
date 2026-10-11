@@ -6,7 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InstructorController;
-use App\Http\Controllers\StripeConnectController;
+use App\Http\Controllers\Stripe\StripeConnectController;
 use App\Http\Controllers\UploadController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\UserResource;
@@ -124,7 +124,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::name('stripe.connect.')->prefix('stripe/connect')->group(function () {
         Route::get('/', [StripeConnectController::class, 'index'])->name('index');
         Route::post('/', [StripeConnectController::class, 'store'])->name('store');
-        Route::get('/onboard', [StripeConnectController::class, 'onboard'])->name('onboard');
+        //Route::get('/onboard', [StripeConnectController::class, 'onboard'])->name('onboard');
         Route::get('/return',[StripeConnectController::class, 'return'])->name('return');
         Route::get('/refresh',[StripeConnectController::class, 'refresh'])->name('refresh');
     });

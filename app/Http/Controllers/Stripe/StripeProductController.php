@@ -21,7 +21,7 @@ class StripeProductController extends Controller
 
         if (!$user->stripe_account_id) {
             return redirect()
-                ->route('stripe.connect')
+                ->route('stripe.connect.index')
                 ->with('error', 'Connect your Stripe account first.');
         }
 

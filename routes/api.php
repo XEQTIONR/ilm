@@ -125,7 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [StripeConnectController::class, 'index'])->name('index');
         Route::post('/', [StripeConnectController::class, 'store'])->name('store');
         //Route::get('/onboard', [StripeConnectController::class, 'onboard'])->name('onboard');
-        Route::get('/return',[StripeConnectController::class, 'return'])->name('return');
+        // Route::get('/return',[StripeConnectController::class, 'return'])->name('return');
         Route::get('/refresh',[StripeConnectController::class, 'refresh'])->name('refresh');
     });
 });

@@ -33,7 +33,7 @@ class StripeConnectController extends Controller
             */
         if ($user->stripe_account_id) {
             return redirect()
-                ->route('stripe.connect')
+                ->route('stripe.connect.index')
                 ->with('error', 'Your Stripe account already exists.');
         }
 
@@ -102,7 +102,7 @@ class StripeConnectController extends Controller
             $user->save();
 
             return redirect()
-                ->route('stripe.connect')
+                ->route('stripe.connect.index')
                 ->with('success', 'Your Stripe account was created.');
 
         } catch (Throwable $e) {
@@ -192,7 +192,7 @@ class StripeConnectController extends Controller
 
         if (!$user->stripe_account_id) {
             return redirect()
-                ->route('stripe.connect')
+                ->route('stripe.connect.index')
                 ->with('error', 'Create your Stripe account first.');
         }
 
@@ -260,7 +260,7 @@ class StripeConnectController extends Controller
     public function return(Request $request)
     {
         return redirect()
-            ->route('stripe.connect')
+            ->route('stripe.connect.index')
             ->with('success', 'Stripe onboarding returned successfully.');
     }
 
@@ -272,7 +272,7 @@ class StripeConnectController extends Controller
     public function refresh(Request $request)
     {
         return redirect()
-            ->route('stripe.connect')
+            ->route('stripe.connect.index')
             ->with(
                 'error',
                 'Your Stripe onboarding link expired. Please start onboarding again.'

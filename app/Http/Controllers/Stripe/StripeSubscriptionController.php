@@ -24,7 +24,7 @@ class StripeSubscriptionController extends Controller
 
         if (!$user->stripe_account_id) {
             return redirect()
-                ->route('stripe.connect')
+                ->route('stripe.connect.index')
                 ->with(
                     'error',
                     'Connect your Stripe account first.'
@@ -114,7 +114,7 @@ class StripeSubscriptionController extends Controller
 
         if (!$user->stripe_account_id) {
             return redirect()
-                ->route('stripe.connect');
+                ->route('stripe.connect.index');
         }
 
         try {
@@ -128,7 +128,7 @@ class StripeSubscriptionController extends Controller
                         $user->stripe_account_id,
 
                     'return_url' =>
-                        route('stripe.connect'),
+                        route('stripe.connect.index'),
                 ]);
 
             return redirect()->away($session->url);

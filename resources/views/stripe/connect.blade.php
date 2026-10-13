@@ -177,6 +177,15 @@
 
         @endif
 
+        <form method="POST" action="{{ route('stripe.connect.delete') }}" style="margin-top: 20px;">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit">
+                Delete Stripe account
+            </button>
+        </form>
+
     </div>
 
 @endif

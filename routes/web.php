@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/onboard', [StripeConnectController::class, 'onboard'])->name('onboard');
             Route::get('/return', [StripeConnectController::class, 'return'])->name('return');
             Route::get('/refresh', [StripeConnectController::class, 'refresh'])->name('refresh');
+            Route::delete('/delete', [StripeConnectController::class, 'delete'])->name('delete');
         }); 
             
 

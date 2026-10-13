@@ -78,7 +78,7 @@ class StripeConnectController extends Controller
                     ],
 
                     'configuration' => [
-                        // 'customer' => [],
+                        'customer' => [],
 
                         'merchant' => [
                             'capabilities' => [
@@ -168,7 +168,6 @@ class StripeConnectController extends Controller
 
         return view('stripe.connect', [
             'account' => null,
-            'error' => 'No account attached.',
         ]);
 
         
@@ -262,6 +261,50 @@ class StripeConnectController extends Controller
         return redirect()
             ->route('stripe.connect.index')
             ->with('success', 'Stripe onboarding returned successfully.');
+    }
+
+    public function delete(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user->stripe_account_id) {
+            return redirect()
+                ->route('stripe.connect.index')
+                ->with('error', 'Create your Stripe account first.');
+        }
+
+        try {
+            /*
+             * Accounts v2 has no delete endpoint. Close removes access
+             * to the account. Every applied configuration must be named
+             * or Stripe rejects the request.
+             */
+            $this->stripe->client()
+                ->v2
+                ->core
+                ->accounts
+                ->close($user->stripe_account_id, [
+                    'applied_configurations' => ['merchant', 'customer'],
+                ]);
+
+            $user->stripe_account_id = null;
+            $user->save();
+
+            return redirect()
+                ->route('stripe.connect.index')
+                ->with('success', 'Stripe account deleted successfully.');
+        } catch (Throwable $e) {
+            Log::error('Stripe connected account deletion failed.', [
+                'user_id' => $user->id,
+                'stripe_account_id' => $user->stripe_account_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return back()->with(
+                'error',
+                'Stripe could not delete your account: ' . $e->getMessage()
+            );
+        }
     }
 
 

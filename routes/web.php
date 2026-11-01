@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
+Route::get('stripe/connect/mobile/return', [StripeConnectController::class, 'mobileReturn'])
+    ->name('stripe.connect.mobile.return');
+Route::get('stripe/connect/mobile/refresh', [StripeConnectController::class, 'mobileRefresh'])
+    ->name('stripe.connect.mobile.refresh');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
